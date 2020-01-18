@@ -1,10 +1,16 @@
 import requests
-# from selenium import webdriver
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
-from csv import writer
+import pandas as pd
 
-response = requests.get('https://www.foodnetwork.com/recipes/ellie-krieger/breakfast-burrito-recipe-1953146')
+driver = webdriver.Chrome(ChromeDriverManager().install())
 
+url = 'https://www.foodnetwork.com/recipes/ellie-krieger/breakfast-burrito-recipe-1953146'
+response = requests.get(url)
+driver.get(url)
+
+'''
 soup = BeautifulSoup(response.text, 'html.parser')
 
 # find all elements beginning with the following
@@ -17,3 +23,4 @@ for i in range(len(ingred_h)):
 
 for ingredient in ingredients:
     print(ingredient)
+'''
