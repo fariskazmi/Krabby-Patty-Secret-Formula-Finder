@@ -1,4 +1,6 @@
 
+#Our attempt at making our own model
+
 #code to avoid path errors
 import sys
 sys.path.append(r"C:\Users\vince\AppData\Local\Programs\Python\Python37\Lib\site-packages")
@@ -61,3 +63,6 @@ tf.saved_model.save(model_name, model_name_sm)
 
 
 print("yes")
+
+
+
