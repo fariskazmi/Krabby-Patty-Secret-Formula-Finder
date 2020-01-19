@@ -3,15 +3,45 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import re
+import numpy as np
+from matplotlib import pyplot as plt
+from random import seed
+from random import random
+import datetime
+
+import tensorflow.compat.v1 as tf
+import PIL
+
 import json
-#import pandas as pd
-#import time
 from termcolor import colored
-import tensorflow as tf
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimp
+import uuid
 
+def image_classifier():
+    '''
+    Description: Takes an image from a Google drive, then uses the MobileNet model available in Tensorflow to return a classification of the image
+    '''
+    name = str(uuid.uuid4())
+    file = tf.keras.utils.get_file(origin= 'https://drive.google.com/uc?export=view&id=11N3E8gj26I8-PBNh8QJkcL0vYKQh3zxS', fname= name)
+    print(type(file))
+    print(file)
+    img = tf.keras.preprocessing.image.load_img(file, target_size=[224, 224])
+    x = tf.keras.preprocessing.image.img_to_array(img)
+    x = tf.keras.applications.mobilenet.preprocess_input(
+    x[tf.newaxis,...])
+    labels_path = tf.keras.utils.get_file(
+    'ImageNetLabels.txt',
+    'https://storage.googleapis.com/download.tensorflow.org/data/ImageNetLabels.txt')
+    imagenet_labels = np.array(open(labels_path).read().splitlines())
+    pretrained_model = tf.keras.applications.MobileNet()
+    result_before_save = pretrained_model(x)
+    decoded = imagenet_labels[np.argsort(result_before_save)[0,::-1][:5]+1]
 
+    if decoded[0] != 'cheeseburger':
+        print(colored(decoded[0], 'yellow'))
+    else:
+        print(colored('KRABBY PATTY', 'yellow'))
+
+    return decoded[0]
 
 def search_recipe_url(dish):
     '''
@@ -31,7 +61,6 @@ def search_recipe_url(dish):
     url = 'https://www.foodnetwork.com/search/' + dish
 
     response = requests.get(url)
- #   print(colored('Search Page Loaded Successfully!', 'yellow'))
 
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -47,7 +76,6 @@ def search_recipe_url(dish):
             # obtain and return the url of the recipe
             if page_type.get_text() == 'Recipe':
                 link = result.find('a', {'href': re.compile("^//www.foodnetwork.com/recipes/")})
- #               print(colored('Found Recipe!', 'yellow'))
                 return 'https:' + link.get('href')
     
     # if recipe is not found, return NoneType
@@ -140,8 +168,6 @@ def read_recipe(url):
     '''
     response = requests.get(url)
 
-  #  print(colored('Recipe Page Loaded Successfully!', 'yellow'))
-
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # get recipe info
@@ -154,6 +180,16 @@ def read_recipe(url):
 
     return recipe
 
+def no_recipe():
+    '''
+    Description: Creates a recipe directory for when recipe was not found.
+
+    Returns:
+        recipe (dict): dictionary representing that no recipe was found
+    '''
+    recipe = {'title':'No Recipe Found', 'ingredients':[''], 'directions':[''], 'url':''}
+    return recipe
+
 def write_json_file(recipe):
     '''
     Description: write recipe information as a JSON text file.
@@ -164,24 +200,37 @@ def write_json_file(recipe):
     with open('recipe_json', 'w') as json_file:
         json.dump(recipe, json_file)
 
+def post_request(recipe):
+    '''
+    Description: Creates a post request to send recipe info to an external website
+
+    Arguments:
+        recipe (dict): dictionary containing all recipe info
+    '''
+
+    url = 'https://us-central1-krabbypatty.cloudfunctions.net/get_json_data_js'
+
+    x = requests.post(url, json = recipe)
+
+    print(x.text)
+
 ### MAIN ###
 if __name__ == "__main__":
 
-    #prompt user
-    print(colored('Welcome to Krabby Patty Secret Formula Finder!', 'yellow'))
-    print(colored('Enter a dish:', 'yellow'), end=' ')
-    dish = input()
+    dish = image_classifier()
 
- #   print(colored('\nOkay! Looking for recipe...', 'yellow'))
-
-    url = search_recipe_url(dish)
+    url = search_recipe_url(str(dish))
     # check if url exists (recipe exists)
-    if url:
+    if url and (dish.lower() != 'cheeseburger'):
         recipe = read_recipe(url)
         show_recipe(recipe)
         write_json_file(recipe)
 
-    elif dish.lower() == 'krabby patty':
+    elif dish.lower() == 'cheeseburger':
         print(colored('Nice try, Plankton >:D', 'red'))
+        recipe = no_recipe()
     else:
         print(colored('Recipe not found :(', 'red'))
+        recipe = no_recipe()
+
+    post_request(recipe)
