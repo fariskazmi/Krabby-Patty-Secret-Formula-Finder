@@ -3,11 +3,15 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import re
-
 import json
 #import pandas as pd
 #import time
 from termcolor import colored
+import tensorflow as tf
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimp
+
+
 
 def search_recipe_url(dish):
     '''
