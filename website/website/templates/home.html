@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Krabby Patty Secret Formula Finder</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Style the header */
+.header {
+  background-color: #131313;
+  padding: 2px;
+  text-align: center;
+  color: white;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 15px;
+  border: solid black 1px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.footer {
+  background-color: #131313;
+  padding: 1px;
+  text-align: center;
+  color: white;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+img {
+  height: 100%;
+  width: 94%;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width:600px) {
+  .column {
+    width: 100%;
+  }
+  .footer {
+    position: relative;
+  }
+  img {
+    height: 100%;
+    width: 100%;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Krabby Patty Secret Formula Finder</h1>
+</div>
+
+<div class="row">
+  <div class="column">
+    <h2>Food:</h2>
+    <img src="https://drive.google.com/uc?export=view&id=11N3E8gj26I8-PBNh8QJkcL0vYKQh3zxS" alt="Food">
+  </div>
+  
+  <div class="column">
+    <h2>Ingredients:</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
+  </div>
+  
+  <div class="column">
+    <h2>Recipe:</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
+  </div>
+</div>
+
+<div class="footer">
+  <p>Made for HackED 2020</p>
+</div>
+</body>
+</html>
