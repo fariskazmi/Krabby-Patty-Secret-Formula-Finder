@@ -154,7 +154,7 @@ def show_recipe(recipe):
         print(colored(str(step_num+1) + ') ' + recipe['steps'][step_num] + '\n', 'green'))
     
     #display url
-    print(colored('URL: ' + recipe['url'], 'grey'))
+    print('URL: ' + recipe['url'])
 
 def read_recipe(url):
     '''
