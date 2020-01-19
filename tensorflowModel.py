@@ -1,32 +1,18 @@
-<<<<<<< HEAD
-print("hi")
-=======
 
 #code to avoid path errors
->>>>>>> 53b94084701d263f579927dfce39cc168fc005dc
 import sys
-sys.path.append(r"C:\Users\matthewzita\AppData\Local\Programs\Python\Python37\Lib\site-packages")
+sys.path.append(r"C:\Users\vince\AppData\Local\Programs\Python\Python37\Lib\site-packages")
 
-<<<<<<< HEAD
-#import urllib3
-#urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-=======
->>>>>>> 53b94084701d263f579927dfce39cc168fc005dc
 print("yuh")
 
 #importing dependencies
 import tensorflow as tf
 import tensorflow_hub as hub
 import tensorflow_datasets as tfds
-<<<<<<< HEAD
-
-=======
->>>>>>> 53b94084701d263f579927dfce39cc168fc005dc
 
 print("aiyaaaa")
 
-
+from tensorflow.keras import layers
 
 #prepping data for training
 splits = tfds.Split.ALL.subsplit(weighted=(75,25))
